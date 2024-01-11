@@ -8,10 +8,13 @@ import com.example.models.Users_Chats
 import org.jetbrains.exposed.sql.ResultRow
 
 class User_ChatRepo {
-    private fun resultRowToArticle(row: ResultRow) = User_Chat(
-        id_user = row[Users_Chats.id_user],
-        id_chat = row[Users_Chats.id_chat],
-    )
+    private fun ResultRow.resultRowToArticle(): User_Chat {
+        return User_Chat(
+            id_user = this[Users_Chats.id_user].value,
+            id_chat = this[Users_Chats.id_chat].value,
+        )
+    }
+
 
     /*Возвращает все объекты из таблицы*/
     suspend fun findAll(): List<User_Chat> = DatabaseSingleton.dbQuery {
@@ -19,22 +22,22 @@ class User_ChatRepo {
     }
 
     /*Запись в таблицу*/
-    suspend fun create(id_user: Int, id_chat: Int): User_Chat = DatabaseSingleton.dbQuery {
+    suspend fun create(userChat: User_Chat): User_Chat = DatabaseSingleton.dbQuery {
         TODO()
     }
 
     /*Обновление записи*/
-    suspend fun update(id_user: Int, id_chat: Int): User_Chat = DatabaseSingleton.dbQuery {
+    suspend fun update(userChat: User_Chat): User_Chat = DatabaseSingleton.dbQuery {
         TODO()
     }
 
     /*Удаление записи*/
-    suspend fun delete(id_user: Int, id_chat: Int): Boolean = DatabaseSingleton.dbQuery {
+    suspend fun delete(userChat: User_Chat): Boolean = DatabaseSingleton.dbQuery {
         TODO()
     }
 
     /*Поиск одной записи*/
-    suspend fun findOnes(id_user: Int, id_chat: Int): User_Chat = DatabaseSingleton.dbQuery {
+    suspend fun findOnes(userChat: User_Chat): User_Chat = DatabaseSingleton.dbQuery {
         TODO()
     }
 }

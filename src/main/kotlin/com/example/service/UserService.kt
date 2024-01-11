@@ -1,15 +1,17 @@
 package com.example.service
 
 import com.example.models.User
+import com.example.models.UserDTO
+import com.example.repository.UserRepo
 
-class UserService {
+class UserService(private val userRepo: UserRepo) {
 
     suspend fun findAllUsers(): List<User> {
         TODO()
     }
 
-    suspend fun addUser(user: User): User {
-        TODO()
+    suspend fun addUser(user: UserDTO): User {
+        return userRepo.create(user)
     }
 
     suspend fun update_info_user(user: User): User {

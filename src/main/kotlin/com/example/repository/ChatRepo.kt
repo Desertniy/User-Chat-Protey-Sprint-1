@@ -8,10 +8,13 @@ import com.example.models.Users
 import org.jetbrains.exposed.sql.ResultRow
 
 class ChatRepo {
-    private fun resultRowToArticle(row: ResultRow) = Chat(
-        id_chat = row[Chats.id],
-        name_chat = row[Chats.name_chat],
-    )
+    private fun ResultRow.resultRowToArticle(): Chat {
+        return Chat(
+            id_chat = this[Chats.id].value,
+            name_chat = this[Chats.name_chat],
+        )
+    }
+
 
     /*Возвращает все объекты из таблицы*/
     suspend fun findAll(): List<Chat> = DatabaseSingleton.dbQuery {
@@ -19,12 +22,12 @@ class ChatRepo {
     }
 
     /*Запись в таблицу*/
-    suspend fun create(name_chat: String): Chat = DatabaseSingleton.dbQuery {
+    suspend fun create(chat: Chat): Chat = DatabaseSingleton.dbQuery {
         TODO()
     }
 
     /*Обновление записи*/
-    suspend fun update(id: Int, name_chat: String): Chat = DatabaseSingleton.dbQuery {
+    suspend fun update(chat: Chat): Chat = DatabaseSingleton.dbQuery {
         TODO()
     }
 

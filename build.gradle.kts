@@ -35,6 +35,9 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposed_version")
     implementation("io.ktor:ktor-server-netty-jvm")
     implementation("ch.qos.logback:logback-classic:$logback_version")
+    implementation("org.jetbrains.exposed:exposed-java-time:$exposed_version")
+    implementation("io.ktor:ktor-server-auth:$ktor_version")
+    implementation ("io.ktor:ktor-client-serialization:$ktor_version")
     testImplementation("io.ktor:ktor-server-tests-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 }

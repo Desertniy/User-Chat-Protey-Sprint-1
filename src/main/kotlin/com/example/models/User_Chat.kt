@@ -1,9 +1,11 @@
 package com.example.models
 
+import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.sql.Table
 
-data class User_Chat(val id_user: EntityID<Int>, val id_chat: EntityID<Int>)
+@Serializable
+data class User_Chat(val id_user: Int, val id_chat: Int)
 
 object Users_Chats: Table(){
     val id_user = reference("id_user", Users)

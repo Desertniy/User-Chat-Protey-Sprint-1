@@ -4,15 +4,19 @@ import com.example.dao.DatabaseSingleton
 import com.example.models.Message
 import com.example.models.Messages
 import com.example.models.User
+import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.sql.ResultRow
 
 class MessageRepo {
-    private fun resultRowToArticle(row: ResultRow) = Message(
-        id_message = row[Messages.id],
-        id_user = row[Messages.id_user],
-        id_chat = row[Messages.id_chat],
-        text_message = row[Messages.text_message],
-    )
+    private fun ResultRow.resultRowToArticle(): Message {
+        return Message(
+            id_message = this[Messages.id].value,
+            id_user = this[Messages.id_user].value,
+            id_chat = this[Messages.id_chat].value,
+            text_message = this[Messages.text_message],
+            timestamp = this[Messages.timestamp],
+        )
+    }
 
     /*Возвращает все объекты из таблицы*/
     suspend fun findAll(): List<Message> = DatabaseSingleton.dbQuery {
@@ -20,7 +24,7 @@ class MessageRepo {
     }
 
     /*Запись в таблицу*/
-    suspend fun create(id_user: Int, id_chat: Int, text_message: String): Message = DatabaseSingleton.dbQuery {
+    suspend fun create(message: Message): Message = DatabaseSingleton.dbQuery {
         TODO()
     }
 
