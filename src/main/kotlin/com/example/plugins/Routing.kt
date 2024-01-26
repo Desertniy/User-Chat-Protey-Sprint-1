@@ -10,15 +10,13 @@ import com.example.service.UserService
 import io.ktor.http.*
 import io.ktor.server.auth.*
 
-fun Application.configureRouting() {
+fun Application.configureRouting(userService: UserService) {
     routing {
         authenticate("auth-basic") {
             chatRoutes()
             messageRoute()
             userRoutes()
         }
-        val userRepo = UserRepo()
-        val userService = UserService(userRepo)
         authenticationRoutes(userService)
     }
 }

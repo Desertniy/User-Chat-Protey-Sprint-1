@@ -16,7 +16,7 @@ object DatabaseSingleton {
     fun init(config: ApplicationConfig) {
         val driverClassName = config.property("storage.driverClassName").getString()
         val jdbcURL = config.property("storage.jdbcURL").getString()
-        val database = Database.connect(jdbcURL, driverClassName)
+        val database = Database.connect(jdbcURL, driverClassName, user = "chatpguser", password = "1234")
 
         transaction(database) {
             SchemaUtils.create(Users, Chats, Messages, Users_Chats)

@@ -12,46 +12,13 @@ services:
       - ../2. Init Database:/docker-entrypoint-initdb.d
       - chatdb-data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U chatpguser -d chatdb"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
+      - "5433:5432"
     restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          cpus: '1'
-          memory: 4G
-    networks:
-      - postgres
-
-  pgadmin:
-    container_name: pgadmin_container
-    image: dpage/pgadmin4:7.2
-    environment:
-      PGADMIN_DEFAULT_EMAIL: "test@test.com"
-      PGADMIN_DEFAULT_PASSWORD: "1234"
-      PGADMIN_CONFIG_SERVER_MODE: "False"
-      PGADMIN_SERVER_TIMEOUT: 200
-    volumes:
-      - pgadmin-data:/var/lib/pgadmin
-    ports:
-      - "5050:80"
-    restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 1G
     networks:
       - postgres
 
 volumes:
   chatdb-data:
-  pgadmin-data:
 
 networks:
   postgres:
