@@ -1,8 +1,7 @@
 package com.example.routes
 
-import com.example.models.helpModels.GetToken
-import com.example.models.helpModels.UserCredential
-import com.example.models.helpModels.UserDTO
+import com.example.models.dto.user.GetToken
+import com.example.models.dto.user.UserCredential
 import com.example.service.UserService
 import io.ktor.http.*
 import io.ktor.server.application.*

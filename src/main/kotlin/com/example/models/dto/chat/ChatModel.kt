@@ -1,4 +1,4 @@
-package com.example.models.helpModels
+package com.example.models.dto.chat
 
 import kotlinx.serialization.Serializable
 

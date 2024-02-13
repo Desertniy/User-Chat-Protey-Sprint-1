@@ -1,7 +1,7 @@
 package com.example.service
 
 import com.example.models.User_Chat
-import com.example.models.helpModels.UserChatFindModel
+import com.example.models.dto.user.UserChatFindModel
 import com.example.repository.User_ChatRepo
 
 class User_ChatService(val userChatRepo: User_ChatRepo) {

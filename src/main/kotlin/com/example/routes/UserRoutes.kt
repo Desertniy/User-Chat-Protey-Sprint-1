@@ -1,7 +1,7 @@
 package com.example.routes
 
-import com.example.models.helpModels.UserDTO
-import com.example.models.helpModels.UserUpdate
+import com.example.models.dto.user.UserCredential
+import com.example.models.dto.user.UserUpdate
 import com.example.service.UserService
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -13,7 +13,7 @@ fun Route.userRoutes(userdb: UserService){
     route("/user"){
 
         post("/register"){
-            val user = call.receive<UserDTO>()
+            val user = call.receive<UserCredential>()
             if (user.login.isNotEmpty() && user.password.isNotEmpty()){
                 val resp = userdb.addUser(user)
                 call.respond(HttpStatusCode.Created, resp)

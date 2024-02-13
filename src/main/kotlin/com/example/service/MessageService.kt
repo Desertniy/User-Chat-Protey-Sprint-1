@@ -1,7 +1,7 @@
 package com.example.service
 
 import com.example.models.Message
-import com.example.models.helpModels.CreateMessageDTO
+import com.example.models.dto.message.CreateMessageDTO
 import com.example.repository.MessageRepo
 
 class MessageService(val messageRepo: MessageRepo) {

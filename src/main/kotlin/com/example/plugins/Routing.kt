@@ -12,7 +12,7 @@ import com.example.utils.ChatManager
 fun Application.configureRouting(userService: UserService, connectionUsers: ChatManager, chatService: ChatService, messageService: MessageService, userChatService: User_ChatService) {
     routing {
         chatRoutes(userService, connectionUsers, userChatService, chatService, messageService)
-        messageRoute()
+        messageRoute(messageService)
         userRoutes(userService)
         authenticationRoutes(userService)
     }

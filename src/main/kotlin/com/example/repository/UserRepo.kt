@@ -2,10 +2,9 @@ package com.example.repository
 
 import com.example.dao.DatabaseSingleton.dbQuery
 import com.example.models.User
-import com.example.models.helpModels.UserCredential
-import com.example.models.helpModels.UserDTO
+import com.example.models.dto.user.UserCredential
 import com.example.models.Users
-import com.example.models.helpModels.UserUpdate
+import com.example.models.dto.user.UserUpdate
 import com.example.utils.encodeToBase64
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
@@ -22,7 +21,7 @@ class UserRepo {
     }
 
     /*Запись в таблицу*/
-    suspend fun create(user: UserDTO): User = dbQuery {
+    suspend fun create(user: UserCredential): User = dbQuery {
         val userId = Users.insertAndGetId {
             it[password] = user.password
             it[login] = user.login
@@ -34,8 +33,8 @@ class UserRepo {
     /*Обновление записи*/
     suspend fun update(user: UserUpdate): User? = dbQuery {
         val res = Users.update({ Users.id eq user.userid }){
-            it[Users.login] = user.login;
-            it[Users.password] = user.password;
+            it[login] = user.login
+            it[password] = user.password
         }
         if (res > 0)
             Users.select { Users.id eq user.userid }.single().resultRowToArticle()
@@ -85,7 +84,7 @@ class UserRepo {
 
     suspend fun deleteToken(userId: Int): Boolean = dbQuery {
         val res = Users.update({Users.id eq userId}) {
-            it[Users.token] = null
+            it[token] = null
         }
         res > 0
     }

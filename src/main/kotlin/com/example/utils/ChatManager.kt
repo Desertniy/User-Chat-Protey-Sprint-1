@@ -9,7 +9,6 @@ class ChatManager {
     fun addUser(idChat: Int, idUser: Int, session: DefaultWebSocketSession){
         users.computeIfAbsent(idChat) { ConcurrentHashMap()}
         users[idChat]?.put(idUser, session)
-        println(users)
     }
 
     fun deleteUser(idChat: Int, idUser: Int){

@@ -1,6 +1,6 @@
 package com.example.plugins
 
-import com.example.models.helpModels.UserCredential
+import com.example.models.dto.user.UserCredential
 import com.example.service.UserService
 import com.example.utils.encodeToBase64
 import io.ktor.server.application.*

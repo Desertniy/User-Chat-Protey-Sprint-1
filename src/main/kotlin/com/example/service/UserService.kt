@@ -1,9 +1,8 @@
 package com.example.service
 
 import com.example.models.User
-import com.example.models.helpModels.UserCredential
-import com.example.models.helpModels.UserDTO
-import com.example.models.helpModels.UserUpdate
+import com.example.models.dto.user.UserCredential
+import com.example.models.dto.user.UserUpdate
 import com.example.repository.UserRepo
 
 class UserService(private val userRepo: UserRepo) {
@@ -12,7 +11,7 @@ class UserService(private val userRepo: UserRepo) {
         return userRepo.findAllUsers()
     }
 
-    suspend fun addUser(user: UserDTO): User {
+    suspend fun addUser(user: UserCredential): User {
         return userRepo.create(user)
     }
 

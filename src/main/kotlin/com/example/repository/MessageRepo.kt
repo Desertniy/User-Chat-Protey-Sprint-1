@@ -3,7 +3,7 @@ package com.example.repository
 import com.example.dao.DatabaseSingleton
 import com.example.models.Message
 import com.example.models.Messages
-import com.example.models.helpModels.CreateMessageDTO
+import com.example.models.dto.message.CreateMessageDTO
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.select

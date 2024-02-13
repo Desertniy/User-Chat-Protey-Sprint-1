@@ -1,8 +1,8 @@
 package com.example.service
 
 import com.example.models.Chat
-import com.example.models.helpModels.ChatModel
-import com.example.models.helpModels.ChatModelFullInfo
+import com.example.models.dto.chat.ChatModel
+import com.example.models.dto.chat.ChatModelFullInfo
 import com.example.repository.ChatRepo
 
 class ChatService(val chatRepo: ChatRepo) {

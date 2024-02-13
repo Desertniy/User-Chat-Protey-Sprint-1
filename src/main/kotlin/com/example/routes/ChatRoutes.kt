@@ -3,10 +3,10 @@ package com.example.routes
 import com.example.models.Chat
 import com.example.models.User
 import com.example.models.User_Chat
-import com.example.models.helpModels.ChatModel
-import com.example.models.helpModels.ChatModelFullInfo
-import com.example.models.helpModels.CreateMessageDTO
-import com.example.models.helpModels.UserChatFindModel
+import com.example.models.dto.chat.ChatModel
+import com.example.models.dto.chat.ChatModelFullInfo
+import com.example.models.dto.message.CreateMessageDTO
+import com.example.models.dto.user.UserChatFindModel
 import com.example.service.ChatService
 import com.example.service.MessageService
 import com.example.service.UserService
@@ -29,7 +29,7 @@ fun Route.chatRoutes(userdb: UserService, connectionUsers: ChatManager, userChat
         val id_chat = call.parameters["chat"]?.toIntOrNull()?: close(CloseReason(CloseReason.Codes.VIOLATED_POLICY, "No id chat"))
         val user = userdb.findUser(id_user as Int)
         if (user is User && userChatdb.findUserChatByModel(UserChatFindModel(id_chat as Int, id_user)) is User_Chat) {
-            connectionUsers.addUser(id_chat as Int, user.id_user, this)
+            connectionUsers.addUser(id_chat, user.id_user, this)
         }
         else {
             close(CloseReason(CloseReason.Codes.VIOLATED_POLICY, "Invalid token"))
@@ -46,7 +46,7 @@ fun Route.chatRoutes(userdb: UserService, connectionUsers: ChatManager, userChat
                 frame as? Frame.Text ?: continue
                 val message = Json.decodeFromString<CreateMessageDTO>(frame.readText())
                 val createdMessage = messagedb.createMessage(message)
-                connectionUsers.getConnectionUsers(id_chat as Int)?.forEach {
+                connectionUsers.getConnectionUsers(id_chat)?.forEach {
                     it.value.send(Json.encodeToString(createdMessage))
                 }
             }

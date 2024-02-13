@@ -3,8 +3,8 @@ package com.example.repository
 import com.example.dao.DatabaseSingleton
 import com.example.models.Chat
 import com.example.models.Chats
-import com.example.models.helpModels.ChatModel
-import com.example.models.helpModels.ChatModelFullInfo
+import com.example.models.dto.chat.ChatModel
+import com.example.models.dto.chat.ChatModelFullInfo
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 
