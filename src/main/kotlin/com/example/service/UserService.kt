@@ -1,44 +1,50 @@
 package com.example.service
 
 import com.example.models.User
-import com.example.models.UserCredential
-import com.example.models.UserDTO
+import com.example.models.helpModels.UserCredential
+import com.example.models.helpModels.UserDTO
+import com.example.models.helpModels.UserUpdate
 import com.example.repository.UserRepo
 
 class UserService(private val userRepo: UserRepo) {
 
     suspend fun findAllUsers(): List<User> {
-        TODO()
+        return userRepo.findAllUsers()
     }
 
     suspend fun addUser(user: UserDTO): User {
         return userRepo.create(user)
     }
 
-    suspend fun update_info_user(user: User): User {
-        TODO()
+    suspend fun updateInfoUser(user: UserUpdate): User? {
+        return userRepo.update(user)
     }
 
-    suspend fun delete_user(id: Int): Boolean {
-        TODO()
+    suspend fun deleteUser(userId: Int?): Boolean {
+        userId?.let{
+            return userRepo.delete(userId)
+        }
+        return false
+
     }
 
-    suspend fun findUser(user: UserCredential): User? {
-        return userRepo.findOnes(user)
+    suspend fun findUser(userId: Int?): User? {
+        userId?.let {
+            return userRepo.findOnes(userId)
+        }
+        return null
+
     }
 
     suspend fun updateToken(user: UserCredential): String?{
-        if (findUser(user) != null){
-            return userRepo.updateToken(user)
-        }
-        return null
+        return userRepo.updateToken(user)
     }
 
-    suspend fun findToken(token: String): User?{
+    suspend fun findUserByToken(token: String): User?{
         return userRepo.findToken(token)
     }
 
-    suspend fun deleteToken(login: String): Boolean{
-        return userRepo.deleteToken(login)
+    suspend fun deleteToken(userId: Int): Boolean{
+        return userRepo.deleteToken(userId)
     }
 }

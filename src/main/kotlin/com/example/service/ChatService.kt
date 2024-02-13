@@ -1,26 +1,26 @@
 package com.example.service
 
 import com.example.models.Chat
+import com.example.models.helpModels.ChatModel
+import com.example.models.helpModels.ChatModelFullInfo
+import com.example.repository.ChatRepo
 
-class ChatService {
+class ChatService(val chatRepo: ChatRepo) {
 
-    suspend fun findAllChats(): List<Chat> {
-        TODO()
+    suspend fun addChat(chat: ChatModel): Chat {
+        return chatRepo.create(chat)
     }
 
-    suspend fun addChat(user: Chat): Chat {
-        TODO()
-    }
-
-    suspend fun update_info_chat(user: Chat): Chat {
-        TODO()
+    suspend fun update_info_chat(chat: ChatModelFullInfo): Chat? {
+        return chatRepo.update(chat)
     }
 
     suspend fun delete_chat(id: Int): Boolean {
-        TODO()
+        chatRepo.delete(id)
+        return chatRepo.findOnes(id) != null
     }
 
-    suspend fun findChat(id: Int): Chat {
-        TODO()
+    suspend fun findChat(idChat: Int): Chat? {
+        return chatRepo.findOnes(idChat)
     }
 }

@@ -8,13 +8,6 @@ import kotlinx.serialization.json.Json
 
 fun Application.serializedConf(){
     install(ContentNegotiation) {
-        json(
-            contentType = ContentType.Application.Json,
-            json = Json {
-                prettyPrint = true
-                isLenient = true
-                coerceInputValues = true
-            }
-        )
+        json()
     }
 }

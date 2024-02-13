@@ -38,6 +38,7 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-java-time:$exposed_version")
     implementation("io.ktor:ktor-server-auth:$ktor_version")
     implementation ("io.ktor:ktor-client-serialization:$ktor_version")
+    implementation("io.ktor:ktor-server-websockets:$ktor_version")
     testImplementation("io.ktor:ktor-server-tests-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 }

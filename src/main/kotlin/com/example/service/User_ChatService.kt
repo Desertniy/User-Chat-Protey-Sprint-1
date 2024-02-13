@@ -1,23 +1,25 @@
 package com.example.service
 
 import com.example.models.User_Chat
+import com.example.models.helpModels.UserChatFindModel
+import com.example.repository.User_ChatRepo
 
-class User_ChatService {
+class User_ChatService(val userChatRepo: User_ChatRepo) {
 
     suspend fun findAllUsers_Chats(): List<User_Chat> {
-        TODO()
+        return userChatRepo.findAll()
     }
 
-    suspend fun addUser_Chat(userChat: User_Chat): User_Chat {
-        TODO()
+    suspend fun addUser_Chat(userChat: UserChatFindModel): User_Chat {
+        return userChatRepo.create(userChat)
     }
 
 
-    suspend fun delete_user_chat(userChat: User_Chat): Boolean {
-        TODO()
+    suspend fun delete_user_chat(idUserChat: Int): Boolean {
+        return userChatRepo.delete(idUserChat)
     }
 
-    suspend fun findUser_Chat(id: Int): User_Chat {
-        TODO()
+    suspend fun findUserChatByModel(userChat: UserChatFindModel): User_Chat? {
+        return userChatRepo.findOnesByModel(userChat)
     }
 }

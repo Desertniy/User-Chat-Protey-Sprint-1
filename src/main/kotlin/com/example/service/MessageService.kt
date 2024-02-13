@@ -1,23 +1,20 @@
 package com.example.service
 
 import com.example.models.Message
+import com.example.models.helpModels.CreateMessageDTO
+import com.example.repository.MessageRepo
 
-class MessageService {
+class MessageService(val messageRepo: MessageRepo) {
 
-    suspend fun findAllMessages(): List<Message> {
-        TODO()
+    suspend fun findAllMessages(idChat: Int): List<Message> {
+        return messageRepo.findAll(idChat)
     }
 
-    suspend fun createMessage(user: Message): Message {
-        TODO()
+    suspend fun createMessage(user: CreateMessageDTO): Message {
+        return messageRepo.create(user)
     }
 
-
-    suspend fun delete_message(id: Int): Boolean {
-        TODO()
-    }
-
-    suspend fun findMessage(id: Int): Message {
-        TODO()
+    suspend fun findMessage(idMessage: Int): Message? {
+        return messageRepo.findOnes(idMessage)
     }
 }

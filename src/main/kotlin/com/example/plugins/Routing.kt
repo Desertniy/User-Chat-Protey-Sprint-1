@@ -1,22 +1,19 @@
 package com.example.plugins
 
-import com.example.models.User
-import com.example.repository.UserRepo
 import io.ktor.server.application.*
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import com.example.routes.*
+import com.example.service.ChatService
+import com.example.service.MessageService
 import com.example.service.UserService
-import io.ktor.http.*
-import io.ktor.server.auth.*
+import com.example.service.User_ChatService
+import com.example.utils.ChatManager
 
-fun Application.configureRouting(userService: UserService) {
+fun Application.configureRouting(userService: UserService, connectionUsers: ChatManager, chatService: ChatService, messageService: MessageService, userChatService: User_ChatService) {
     routing {
-        authenticate("auth-basic") {
-            chatRoutes()
-            messageRoute()
-            userRoutes()
-        }
+        chatRoutes(userService, connectionUsers, userChatService, chatService, messageService)
+        messageRoute()
+        userRoutes(userService)
         authenticationRoutes(userService)
     }
 }

@@ -3,14 +3,16 @@ package com.example.repository
 import com.example.dao.DatabaseSingleton
 import com.example.models.Chat
 import com.example.models.Chats
-import com.example.models.User
-import com.example.models.Users
-import org.jetbrains.exposed.sql.ResultRow
+import com.example.models.helpModels.ChatModel
+import com.example.models.helpModels.ChatModelFullInfo
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 
-class ChatRepo {
+class ChatRepo() {
     private fun ResultRow.resultRowToArticle(): Chat {
         return Chat(
             id_chat = this[Chats.id].value,
+            idCreator = this[Chats.idCreator],
             name_chat = this[Chats.name_chat],
         )
     }
@@ -22,22 +24,29 @@ class ChatRepo {
     }
 
     /*Запись в таблицу*/
-    suspend fun create(chat: Chat): Chat = DatabaseSingleton.dbQuery {
-        TODO()
+    suspend fun create(chat: ChatModel): Chat = DatabaseSingleton.dbQuery {
+        val chatId = Chats.insertAndGetId {
+            it[idCreator] = chat.idCreator
+            it[name_chat] = chat.nameChat
+        }
+        Chats.select {Chats.id eq chatId }.single().resultRowToArticle()
     }
 
     /*Обновление записи*/
-    suspend fun update(chat: Chat): Chat = DatabaseSingleton.dbQuery {
-        TODO()
+    suspend fun update(chat: ChatModelFullInfo): Chat? = DatabaseSingleton.dbQuery {
+        Chats.update({Chats.id eq chat.idChat}){
+            it[name_chat] = chat.nameChat
+        }
+        Chats.select { Chats.id eq chat.idChat }.singleOrNull()?.resultRowToArticle()
     }
 
     /*Удаление записи*/
-    suspend fun delete(id: Int): Boolean = DatabaseSingleton.dbQuery {
-        TODO()
+    suspend fun delete(idChat: Int) = DatabaseSingleton.dbQuery {
+        Chats.deleteWhere { Chats.id eq idChat }
     }
 
     /*Поиск одной записи*/
-    suspend fun findOnes(id: Int): Chat = DatabaseSingleton.dbQuery {
-        TODO()
+    suspend fun findOnes(idChat: Int): Chat? = DatabaseSingleton.dbQuery {
+        Chats.select {Chats.id eq idChat }.singleOrNull()?.resultRowToArticle()
     }
 }

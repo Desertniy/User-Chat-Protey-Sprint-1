@@ -1,12 +1,10 @@
 package com.example.plugins
 
-import com.example.models.User
-import com.example.models.UserCredential
+import com.example.models.helpModels.UserCredential
 import com.example.service.UserService
-import io.ktor.http.*
+import com.example.utils.encodeToBase64
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
-import io.ktor.server.response.*
 
 fun Application.configureAuth(userService: UserService) {
     install(Authentication) {
@@ -16,7 +14,7 @@ fun Application.configureAuth(userService: UserService) {
                 val user = UserCredential(credentials.name,
                     credentials.password)
                 val token = encodeToBase64(user.login + ":" + user.password)
-                val result = userService.findToken(token)
+                val result = userService.findUserByToken(token)
                 if (result != null){
                     if (result.login == user.login && result.password == user.password)
                         return@validate UserIdPrincipal(result.login)
