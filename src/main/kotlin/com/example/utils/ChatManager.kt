@@ -3,6 +3,7 @@ package com.example.utils
 import io.ktor.websocket.*
 import java.util.concurrent.ConcurrentHashMap
 
+// Storage for users connected to chats
 class ChatManager {
     private val users = ConcurrentHashMap<Int, MutableMap<Int, DefaultWebSocketSession>>()
 

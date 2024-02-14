@@ -23,6 +23,9 @@ fun Route.userRoutes(userdb: UserService){
         /*Получение всех пользователей*/
         get("/all"){
             val allUsers = userdb.findAllUsers()
+            if (allUsers.isEmpty()){
+                call.respond(HttpStatusCode.OK)
+            }
             call.respond(HttpStatusCode.OK, allUsers)
         }
 
@@ -30,30 +33,41 @@ fun Route.userRoutes(userdb: UserService){
         put{
             val user = call.receive<UserUpdate>()
             val updateUser = userdb.updateInfoUser(user)
-            updateUser?.let {
-                call.respond(HttpStatusCode.OK, updateUser)
+            if (updateUser == null) {
+                call.respond(HttpStatusCode.BadRequest, mapOf(
+                    "status" to "Incorrect info"))
+                return@put
             }
-            call.respond(HttpStatusCode.BadRequest, mapOf(
-                "status" to "Incorrect info"))
+            call.respond(HttpStatusCode.OK, updateUser)
         }
 
         /*Удаление пользователя*/
         delete{
-            val id = call.parameters["id"]?.toIntOrNull()?: call.respond(HttpStatusCode.BadRequest, mapOf("status" to "Incorrect Id parameter"))
-            val deleteUser = userdb.deleteUser(id as? Int)
-            if (deleteUser){
-                call.respond(HttpStatusCode.Found, mapOf("status" to "User Delete"))
+            val id = call.parameters["id"]?.toIntOrNull()
+            if (id == null){
+                call.respond(HttpStatusCode.BadRequest, mapOf("status" to "Incorrect Id parameter"))
+                return@delete
             }
-            call.respond(HttpStatusCode.BadRequest, mapOf("status" to "Invalid Id"))
+            val deleteUser = userdb.deleteUser(id)
+            if (!deleteUser){
+                call.respond(HttpStatusCode.BadRequest, mapOf("status" to "Invalid Id"))
+                return@delete
+            }
+            call.respond(HttpStatusCode.Found, mapOf("status" to "User Delete"))
         }
 
         get{
-            val id = call.parameters["id"]?.toIntOrNull()?: call.respond(HttpStatusCode.BadRequest, mapOf("status" to "Incorrect Id parameter"))
-            val user = userdb.findUser(id as? Int)
-            user?.let {
-                call.respond(HttpStatusCode.Found, user)
+            val id = call.parameters["id"]?.toIntOrNull()
+            if (id == null){
+                call.respond(HttpStatusCode.BadRequest, mapOf("status" to "Incorrect Id parameter"))
+                return@get
             }
-            call.respond(HttpStatusCode.BadRequest, mapOf("status" to "Invalid UserId"))
+            val user = userdb.findUser(id)
+            if (user == null){
+                call.respond(HttpStatusCode.BadRequest, mapOf("status" to "Invalid UserId"))
+                return@get
+            }
+            call.respond(HttpStatusCode.Found, user)
         }
 
     }

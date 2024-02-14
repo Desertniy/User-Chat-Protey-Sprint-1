@@ -14,26 +14,26 @@ fun Route.authenticationRoutes(userdb: UserService){
         post("/login"){
             val user = call.receive<UserCredential>()
             val token = userdb.updateToken(user)
-            if (token != null)
-                call.respond(HttpStatusCode.OK,
-                    mapOf(
-                        "status" to "Ok",
-                        "token" to token
-                    ))
-            else
+            if (token == null)
                 call.respond(HttpStatusCode.BadRequest,
                     mapOf(
                         "status" to "Wrong login or password"
                     ))
+            call.respond(HttpStatusCode.OK,
+                mapOf(
+                    "status" to "Ok",
+                    "token" to token
+                ))
         }
         post("/logout") {
             val token = call.request.headers["X-Auth-Token"]
-            token?.let{
-                val user = userdb.findUserByToken(token)
-                if (user != null && userdb.deleteToken(user.id_user)){
-                    call.respond(HttpStatusCode.OK, mapOf("status" to "Ok"))
-                }
+            if (token == null){
                 call.respond(HttpStatusCode.Unauthorized, mapOf("status" to "Unauthorized"))
+                return@post
+            }
+            val user = userdb.findUserByToken(token)
+            if (user != null && userdb.deleteToken(user.id_user)){
+                call.respond(HttpStatusCode.OK, mapOf("status" to "Ok"))
             }
             call.respond(HttpStatusCode.Unauthorized, mapOf("status" to "Unauthorized"))
         }

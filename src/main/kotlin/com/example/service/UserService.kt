@@ -19,19 +19,13 @@ class UserService(private val userRepo: UserRepo) {
         return userRepo.update(user)
     }
 
-    suspend fun deleteUser(userId: Int?): Boolean {
-        userId?.let{
-            return userRepo.delete(userId)
-        }
-        return false
-
+    suspend fun deleteUser(userId: Int): Boolean {
+        return userRepo.delete(userId)
     }
 
-    suspend fun findUser(userId: Int?): User? {
-        userId?.let {
-            return userRepo.findOnes(userId)
-        }
-        return null
+    suspend fun findUser(userId: Int): User? {
+        return userRepo.findOnes(userId)
+
 
     }
 
