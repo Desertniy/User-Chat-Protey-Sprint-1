@@ -40,7 +40,13 @@ dependencies {
     implementation ("io.ktor:ktor-client-serialization:$ktor_version")
     implementation("io.ktor:ktor-server-websockets:$ktor_version")
     testImplementation("io.ktor:ktor-server-tests-jvm")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+    testImplementation("io.mockk:mockk:1.12.0")
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
 
 
