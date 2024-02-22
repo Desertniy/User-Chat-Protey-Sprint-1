@@ -29,7 +29,7 @@ fun Route.chatRoutes(userdb: UserService, connectionUsers: ChatManager, userChat
         val id_chat = call.parameters["chat"]?.toIntOrNull()?: close(CloseReason(CloseReason.Codes.VIOLATED_POLICY, "No id chat"))
         val user = userdb.findUser(id_user as Int)
         if (user is User && userChatdb.findUserChatByModel(UserChatFindModel(id_chat as Int, id_user)) is User_Chat) {
-            connectionUsers.addUser(id_chat, user.id_user, this)
+            connectionUsers.addUser(id_chat, user.idUser, this)
         }
         else {
             close(CloseReason(CloseReason.Codes.VIOLATED_POLICY, "Invalid token"))
@@ -75,12 +75,12 @@ fun Route.chatRoutes(userdb: UserService, connectionUsers: ChatManager, userChat
             }
             try {
                 val chat = call.receive<ChatModel>()
-                if (user.id_user != chat.idCreator){
+                if (user.idUser != chat.idCreator){
                     call.respond(HttpStatusCode.BadRequest, mapOf("status" to "Invalid User ID"))
                     return@post
                 }
                 val createdChat = chatdb.addChat(chat)
-                userChatdb.addUser_Chat(UserChatFindModel(createdChat.idCreator, createdChat.id_chat))
+                userChatdb.addUserChat(UserChatFindModel(createdChat.idCreator, createdChat.idChat))
                 call.respond(HttpStatusCode.Created, createdChat)
             }
             catch (_:BadRequestException){
@@ -106,14 +106,14 @@ fun Route.chatRoutes(userdb: UserService, connectionUsers: ChatManager, userChat
                 call.respond(HttpStatusCode.Unauthorized, mapOf("status" to "Unauthorized"))
                 return@post
             }
-            if (user.id_user != idUser || chatdb.findChat(idChat) !is Chat){
+            if (user.idUser != idUser || chatdb.findChat(idChat) !is Chat){
                 call.respond(HttpStatusCode.BadRequest, mapOf("status" to "Invalid user or chat"))
                 return@post
             }
             if (userChatdb.findUserChatByModel(UserChatFindModel(idChat, idUser)) is User_Chat){
                 call.respond(HttpStatusCode.Found, mapOf("status" to "User joined in Chat"))
                 return@post }
-            userChatdb.addUser_Chat(UserChatFindModel(idChat, idUser))
+            userChatdb.addUserChat(UserChatFindModel(idChat, idUser))
             call.respond(HttpStatusCode.Created, mapOf("status" to "Join complete"))
         }
 
@@ -138,14 +138,14 @@ fun Route.chatRoutes(userdb: UserService, connectionUsers: ChatManager, userChat
                 call.respond(HttpStatusCode.NotFound)
                 return@delete
             }
-            userChatdb.delete_user_chat(model.id)
+            userChatdb.deleteUserChat(model.id)
             call.respond(HttpStatusCode.OK)
         }
 
         put("/update-info") {
             val info = call.receive<ChatModelFullInfo>()
             try {
-                val updateChat = chatdb.update_info_chat(info)
+                val updateChat = chatdb.updateInfoChat(info)
                 if (updateChat !is Chat){
                     call.respond(HttpStatusCode.BadRequest)
                     return@put
@@ -163,7 +163,7 @@ fun Route.chatRoutes(userdb: UserService, connectionUsers: ChatManager, userChat
                 call.respond(HttpStatusCode.NotFound)
                 return@delete
             }
-            chatdb.delete_chat(idChat)
+            chatdb.deleteChat(idChat)
             call.respond(HttpStatusCode.OK)
         }
 

@@ -32,7 +32,7 @@ fun Route.authenticationRoutes(userdb: UserService){
                 return@post
             }
             val user = userdb.findUserByToken(token)
-            if (user != null && userdb.deleteToken(user.id_user)){
+            if (user != null && userdb.deleteToken(user.idUser)){
                 call.respond(HttpStatusCode.OK, mapOf("status" to "Ok"))
             }
             call.respond(HttpStatusCode.Unauthorized, mapOf("status" to "Unauthorized"))

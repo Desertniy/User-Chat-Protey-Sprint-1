@@ -11,10 +11,10 @@ import org.jetbrains.exposed.sql.select
 class MessageRepo {
     private fun ResultRow.resultRowToArticle(): Message {
         return Message(
-            id_message = this[Messages.id].value,
-            id_user = this[Messages.id_user].value,
-            id_chat = this[Messages.id_chat].value,
-            text_message = this[Messages.text_message],
+            idMessage = this[Messages.id].value,
+            idUser = this[Messages.id_user].value,
+            idChat = this[Messages.id_chat].value,
+            textMessage = this[Messages.text_message],
             timestamp = this[Messages.timestamp],
         )
     }
@@ -23,10 +23,10 @@ class MessageRepo {
     suspend fun findAll(idChat: Int): List<Message> = DatabaseSingleton.dbQuery {
         Messages.select { Messages.id_chat eq idChat }.map { row ->
             Message(
-                id_message = row[Messages.id].value,
-                id_user = row[Messages.id_user].value,
-                id_chat = row[Messages.id_chat].value,
-                text_message = row[Messages.text_message],
+                idMessage = row[Messages.id].value,
+                idUser = row[Messages.id_user].value,
+                idChat = row[Messages.id_chat].value,
+                textMessage = row[Messages.text_message],
                 timestamp = row[Messages.timestamp]
             )
         }
@@ -35,9 +35,9 @@ class MessageRepo {
     /*Запись в таблицу*/
     suspend fun create(message: CreateMessageDTO): Message = DatabaseSingleton.dbQuery {
         val result = Messages.insertAndGetId {
-            it[id_chat] = message.id_chat
-            it[id_user] = message.id_user
-            it[text_message] = message.text_message
+            it[id_chat] = message.idChat
+            it[id_user] = message.idUser
+            it[text_message] = message.textMessage
         }
         Messages.select { Messages.id eq result }.single().resultRowToArticle()
     }

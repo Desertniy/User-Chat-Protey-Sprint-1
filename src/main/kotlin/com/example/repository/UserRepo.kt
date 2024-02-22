@@ -13,7 +13,7 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 class UserRepo {
     private fun ResultRow.resultRowToArticle(): User {
         return User(
-            id_user = this[Users.id].value,
+            idUser = this[Users.id].value,
             login = this[Users.login],
             username = this[Users.username]?: "Uknown",
             password = this[Users.password],
@@ -57,7 +57,7 @@ class UserRepo {
     suspend fun findAllUsers(): List<User> = dbQuery{
         Users.selectAll().map { row ->
             User(
-                id_user = row[Users.id].value,
+                idUser = row[Users.id].value,
                 login = row[Users.login],
                 username = row[Users.username]?: "Uknown",
                 password = row[Users.password],
@@ -67,7 +67,7 @@ class UserRepo {
 
     suspend fun updateToken(user: UserCredential): String? = dbQuery {
         val token = encodeToBase64(user.login + ":" + user.password)
-        val res = Users.update({ Users.login eq user.login }){
+        val res = Users.update({ (Users.login eq user.login) and (Users.password eq user.password) }){
             it[Users.token] = token
         }
         if (res > 0)

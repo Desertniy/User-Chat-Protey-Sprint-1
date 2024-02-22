@@ -11,8 +11,8 @@ class User_ChatRepo {
     private fun ResultRow.resultRowToArticle(): User_Chat {
         return User_Chat(
             id = this[Users_Chats.id].value,
-            id_user = this[Users_Chats.id_user].value,
-            id_chat = this[Users_Chats.id_chat].value,
+            idUser = this[Users_Chats.id_user].value,
+            idChat = this[Users_Chats.id_chat].value,
         )
     }
 
@@ -22,8 +22,8 @@ class User_ChatRepo {
         Users_Chats.selectAll().map { row ->
             User_Chat(
                 id = row[Users_Chats.id].value,
-                id_user = row[Users_Chats.id_user].value,
-                id_chat = row[Users_Chats.id_chat].value
+                idUser = row[Users_Chats.id_user].value,
+                idChat = row[Users_Chats.id_chat].value
             )
         }
     }
@@ -31,8 +31,8 @@ class User_ChatRepo {
     /*Запись в таблицу*/
     suspend fun create(userChat: UserChatFindModel): User_Chat = dbQuery {
         val result = Users_Chats.insertAndGetId {
-            it[id_chat] = userChat.id_chat
-            it[id_user] = userChat.id_user
+            it[id_chat] = userChat.idChat
+            it[id_user] = userChat.idUser
         }
         Users_Chats.select { Users_Chats.id eq result }.single().resultRowToArticle()
     }
@@ -45,6 +45,6 @@ class User_ChatRepo {
 
     /*Поиск одной записи*/
     suspend fun findOnesByModel(userChat: UserChatFindModel): User_Chat? = dbQuery {
-        Users_Chats.select { (Users_Chats.id_chat eq userChat.id_chat) and (Users_Chats.id_user eq userChat.id_user) }.singleOrNull()?.resultRowToArticle()
+        Users_Chats.select { (Users_Chats.id_chat eq userChat.idChat) and (Users_Chats.id_user eq userChat.idUser) }.singleOrNull()?.resultRowToArticle()
     }
 }

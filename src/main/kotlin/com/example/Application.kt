@@ -11,11 +11,7 @@ import com.example.service.MessageService
 import com.example.service.UserService
 import com.example.service.User_ChatService
 import com.example.utils.ChatManager
-import io.ktor.http.*
-import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
-import io.ktor.server.plugins.contentnegotiation.*
-import kotlinx.serialization.json.Json
 
 fun main(args: Array<String>) {
     io.ktor.server.netty.EngineMain.main(args)
@@ -33,7 +29,7 @@ fun Application.module() {
     val userChatService = User_ChatService(userChatRepo)
     val connectionUsers = ChatManager()
     configureWebSocket()
-    serializedConf()
+    configureSerialization()
     configureAuth(userService)
     configureRouting(userService, connectionUsers, chatService, messageService, userChatService)
 

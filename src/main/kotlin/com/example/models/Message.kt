@@ -9,10 +9,10 @@ import org.jetbrains.exposed.sql.javatime.datetime
 import java.time.LocalDateTime
 
 @Serializable
-data class Message(val id_message: Int,
-                   val id_user: Int,
-                   val id_chat: Int,
-                   val text_message: String,
+data class Message(val idMessage: Int,
+                   val idUser: Int,
+                   val idChat: Int,
+                   val textMessage: String,
                    @Serializable(with = LocalDateTimeSerializer::class)
                    val timestamp: LocalDateTime)
 

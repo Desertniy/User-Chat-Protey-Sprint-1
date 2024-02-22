@@ -10,12 +10,12 @@ class User_ChatService(val userChatRepo: User_ChatRepo) {
         return userChatRepo.findAll()
     }
 
-    suspend fun addUser_Chat(userChat: UserChatFindModel): User_Chat {
+    suspend fun addUserChat(userChat: UserChatFindModel): User_Chat {
         return userChatRepo.create(userChat)
     }
 
 
-    suspend fun delete_user_chat(idUserChat: Int): Boolean {
+    suspend fun deleteUserChat(idUserChat: Int): Boolean {
         return userChatRepo.delete(idUserChat)
     }
 

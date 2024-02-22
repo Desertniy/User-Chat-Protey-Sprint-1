@@ -11,13 +11,12 @@ class ChatService(val chatRepo: ChatRepo) {
         return chatRepo.create(chat)
     }
 
-    suspend fun update_info_chat(chat: ChatModelFullInfo): Chat? {
+    suspend fun updateInfoChat(chat: ChatModelFullInfo): Chat? {
         return chatRepo.update(chat)
     }
 
-    suspend fun delete_chat(id: Int): Boolean {
+    suspend fun deleteChat(id: Int){
         chatRepo.delete(id)
-        return chatRepo.findOnes(id) != null
     }
 
     suspend fun findChat(idChat: Int): Chat? {

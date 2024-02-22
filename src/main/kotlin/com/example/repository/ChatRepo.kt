@@ -11,9 +11,9 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 class ChatRepo() {
     private fun ResultRow.resultRowToArticle(): Chat {
         return Chat(
-            id_chat = this[Chats.id].value,
+            idChat = this[Chats.id].value,
             idCreator = this[Chats.idCreator],
-            name_chat = this[Chats.name_chat],
+            nameChat = this[Chats.name_chat],
         )
     }
 

@@ -2,15 +2,10 @@ package com.example
 
 import com.example.models.User
 import com.example.models.dto.user.UserCredential
-import com.example.plugins.*
 import com.example.repository.UserRepo
 import com.example.service.UserService
 import com.example.utils.decodeFromBase64
 import com.example.utils.encodeToBase64
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import io.ktor.http.*
-import io.ktor.server.testing.*
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -54,7 +49,7 @@ class ApplicationTest {
             login = "desertniy123",
             password = "1234")
         val resultUser = User(
-            id_user = 5,
+            idUser = 5,
             login = user.login,
             username = "Uknown",
             password = user.password

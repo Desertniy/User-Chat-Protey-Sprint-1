@@ -1,10 +1,9 @@
 package com.example.models
 
 import kotlinx.serialization.Serializable
-import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 @Serializable
-data class User(val id_user: Int,
+data class User(val idUser: Int,
                 val login: String,
                 val username: String,
                 val password: String)
